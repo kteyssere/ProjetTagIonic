@@ -1,0 +1,7 @@
+{
+  "name": "TagApp",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular"
+}
