@@ -9,27 +9,7 @@
 
 <ion-content [fullscreen]="true">
 
-  <div id="map">  </div>
+  <div id="map"> <ion-button id="refreshButton" (click)="refreshPosition()" color="dark" ><ion-icon name="locate"></ion-icon></ion-button> </div>
 
-  <ion-icon id="trigger-button" name="ellipsis-horizontal-outline" style="display: flex;margin-left: auto;justify-content: center;align-content: center;margin-right: auto"></ion-icon>
-  <ion-modal trigger="trigger-button"
-    [isOpen]="false"
-    [breakpoints]="[0.2, 0, 0]"
-    [initialBreakpoint]="0.14"
-  >
-    <ng-template>
-      <ion-content>
-
-        <div id="modal">
-          <ion-button style="width: auto"><ion-icon name="bus"></ion-icon></ion-button>
-          <ion-button style="width: auto"><ion-icon name="bicycle"></ion-icon></ion-button>
-          <ion-button style="width: auto"> <ion-icon name="car"></ion-icon></ion-button>
-          <ion-button style="width: auto"><ion-icon name="star-outline"></ion-icon></ion-button>
-          <p>Bus/Tram</p><p>Vélo</p><p>Voiture</p><p>Personalisé</p>
-        </div>
-
-      </ion-content>
-    </ng-template>
-  </ion-modal>
-
+  <app-menu></app-menu>
 </ion-content>

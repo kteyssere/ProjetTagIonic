@@ -4,12 +4,217 @@
       <ion-menu-button></ion-menu-button>
     </ion-button>
     <ion-title>
-      Lignes
+      Lignes du réseau
     </ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content [fullscreen]="true">
 
+  <ion-segment (ionChange)="segmentChanged($event)" [(ngModel)]="selectedSeg">
+    <ion-segment-button value="lignes">
+      <ion-label>Lignes</ion-label>
+    </ion-segment-button>
+    <ion-segment-button value="plans">
+      <ion-label>Plans</ion-label>
+    </ion-segment-button>
+  </ion-segment>
+
+  <div *ngIf="selectedSeg === 'lignes'">
+    <ion-card>
+      <ion-card-header>
+        <ion-card-title>Tram</ion-card-title>
+        <ion-card-subtitle>4h30 à 1h</ion-card-subtitle>
+      </ion-card-header>
+
+      <ion-card-content>
+        <div *ngFor="let item of tram; index as i" style="display: inline-block">
+          <ion-button style="{{(item.color ? '--background: #'+item.color+'; --background-activated: #'+item.color : '' )}}" >{{item.name}}</ion-button>
+        </div>
+      </ion-card-content>
+    </ion-card>
+
+    <ion-card>
+      <ion-card-header>
+        <ion-card-title>Navette Relais</ion-card-title>
+        <ion-card-subtitle>4h30 à 1h</ion-card-subtitle>
+      </ion-card-header>
+
+      <ion-card-content>
+        <div *ngFor="let item of navette; index as i" style="display: inline-block">
+          <ion-button style="{{(item.color ? '--background: #'+item.color+'; --background-activated: #'+item.color : '' )}}" >{{item.name}}</ion-button>
+        </div>
+      </ion-card-content>
+    </ion-card>
+
+    <ion-card>
+      <ion-card-header>
+        <ion-card-title>Chrono</ion-card-title>
+        <ion-card-subtitle>5h à 1h</ion-card-subtitle>
+      </ion-card-header>
+
+      <ion-card-content>
+        <div *ngFor="let item of chrono; index as i" style="display: inline-block">
+          <ion-button style="{{(item.color ? '--background: #'+item.color+'; --background-activated: #'+item.color+'; --color: black' : '' )}}" >{{item.name}}</ion-button>
+        </div>
+      </ion-card-content>
+    </ion-card>
+
+
+
+    <ion-card>
+      <ion-card-header>
+        <ion-card-title>Proximo</ion-card-title>
+        <ion-card-subtitle>5h à 21h</ion-card-subtitle>
+      </ion-card-header>
+
+      <ion-card-content>
+        <div *ngFor="let item of proximo; index as i" style="display: inline-block">
+          <ion-button style="{{(item.color ? '--background: #'+item.color+'; --background-activated: #'+item.color : '' )}}" >{{item.name}}</ion-button>
+        </div>
+      </ion-card-content>
+    </ion-card>
+
+    <ion-card>
+      <ion-card-header>
+        <ion-card-title>Flexo</ion-card-title>
+        <ion-card-subtitle>6h30 à 20h</ion-card-subtitle>
+      </ion-card-header>
+
+      <ion-card-content>
+        <div *ngFor="let item of flexo; index as i" style="display: inline-block">
+          <ion-button style="{{(item.color ? '--background: #'+item.color+'; --background-activated: #'+item.color : '' )}}" >{{item.name}}</ion-button>
+        </div>
+      </ion-card-content>
+    </ion-card>
+
+    <ion-card>
+      <ion-card-header>
+        <ion-card-title>Cars Région Express</ion-card-title>
+      </ion-card-header>
+
+      <ion-card-content>
+        <div *ngFor="let item of carsregionexpress; index as i" style="display: inline-block">
+          <ion-button style="{{(item.color ? '--background: #'+item.color+'; --background-activated: #'+item.color : '' )}}" >{{item.name}}</ion-button>
+        </div>
+      </ion-card-content>
+    </ion-card>
+
+    <ion-card>
+      <ion-card-header>
+        <ion-card-title>Cars Région</ion-card-title>
+      </ion-card-header>
+
+      <ion-card-content>
+        <div *ngFor="let item of carsregion; index as i" style="display: inline-block">
+          <ion-button style="{{(item.color ? '--background: #'+item.color+'; --background-activated: #'+item.color : '' )}}" >{{item.name}}</ion-button>
+        </div>
+      </ion-card-content>
+    </ion-card>
+
+    <ion-card>
+      <ion-card-header>
+        <ion-card-title>TouGo</ion-card-title>
+      </ion-card-header>
+
+      <ion-card-content>
+        <div *ngFor="let item of tougo; index as i" style="display: inline-block">
+          <ion-button style="{{(item.color ? '--background: #'+item.color+'; --background-activated: #'+item.color : '' )}}" >{{item.name}}</ion-button>
+        </div>
+      </ion-card-content>
+    </ion-card>
+
+    <ion-card>
+      <ion-card-header>
+        <ion-card-title>Chrono</ion-card-title>
+        <ion-card-subtitle>5h à 1h</ion-card-subtitle>
+      </ion-card-header>
+
+      <ion-card-content>
+        <div *ngFor="let item of mcovoitlignes; index as i" style="display: inline-block">
+          <ion-button style="{{(item.color ? '--background: #'+item.color+'; --background-activated: #'+item.color : '' )}}" >{{item.name}}</ion-button>
+        </div>
+      </ion-card-content>
+    </ion-card>
+
+    <ion-card>
+      <ion-card-header>
+        <ion-card-title>Pays Voironnais</ion-card-title>
+      </ion-card-header>
+
+      <ion-card-content>
+        <div *ngFor="let item of paysvoironnais; index as i" style="display: inline-block">
+          <ion-button style="{{(item.color ? '--background: #'+item.color+'; --background-activated: #'+item.color : '' )}}" >{{item.name}}</ion-button>
+        </div>
+      </ion-card-content>
+    </ion-card>
+
+    <ion-card>
+      <ion-card-header>
+        <ion-card-title>M'Covoit-Lignes+</ion-card-title>
+        <p>Covoiturez avec M'Covoit-Lignes+ pour vos trajets quotidiens sur le Voironnais, le Grésivaudan et la métropole grenobloise</p>
+      </ion-card-header>
+
+      <ion-card-content>
+        <div *ngFor="let item of mcovoitlignes; index as i" style="display: inline-block">
+          <ion-button style="{{(item.color ? '--background: #'+item.color+'; --background-activated: #'+item.color : '' )}}" >{{item.name}}</ion-button>
+        </div>
+      </ion-card-content>
+    </ion-card>
+
+  </div>
+
+  <div *ngIf="selectedSeg === 'plans'">
+    <ion-list>
+
+      <ion-img src="../../assets/tag.png" style="float: left; height: 50px; width: auto"></ion-img><br><br><br>
+
+      <ion-item>
+        <ion-label>Zone urbaine</ion-label>
+<!--        <a href="../../assets/zoneurbaine.pdf"><ion-icon name="download-outline" ></ion-icon></a>-->
+<!--        <iframe src="../../assets/zoneurbaine.pdf"><ion-icon name="download-outline" ></ion-icon></iframe>-->
+        <ion-button (click)="openPdf('../../assets/zoneurbaine.pdf')" color="light"><ion-icon name="download-outline" ></ion-icon></ion-button>
+      </ion-item>
+      <ion-item>
+        <ion-label>Lignes essentielles</ion-label>
+        <ion-button color="light"><ion-icon name="download-outline" ></ion-icon></ion-button>
+      </ion-item>
+      <ion-item>
+        <ion-label>Métropole Grenobloise</ion-label>
+        <ion-button color="light"><ion-icon name="download-outline" ></ion-icon></ion-button>
+      </ion-item>
+      <br>
+      <ion-img src="../../assets/cars-region.png" style="float: left; height: 65px; width: auto"></ion-img><br><br><br><br>
+
+      <ion-item>
+        <ion-label>Cars Région</ion-label>
+        <ion-button color="light"><ion-icon name="download-outline" ></ion-icon></ion-button>
+      </ion-item>
+      <br>
+      <ion-img src="../../assets/tougo.png" style="float: left; height: 50px; width: auto"></ion-img><br><br><br>
+
+      <ion-item>
+        <ion-label>Réseau Tougo</ion-label>
+        <ion-button color="light"><ion-icon name="download-outline" ></ion-icon></ion-button>
+      </ion-item>
+      <br>
+      <ion-img src="../../assets/pays-voironnais-mobilité.png" style="float: left; height: 50px; width: auto"></ion-img><br><br><br>
+
+      <ion-item>
+        <ion-label>Plan urbain</ion-label>
+        <ion-button color="light"><ion-icon name="download-outline" ></ion-icon></ion-button>
+      </ion-item>
+      <ion-item>
+        <ion-label>Plan interurbain</ion-label>
+        <ion-button color="light"><ion-icon name="download-outline" ></ion-icon></ion-button>
+      </ion-item>
+      <ion-img src="../../assets/smmag.png" style="float: left; height: 100px; width: auto"></ion-img><br><br><br><br><br><br>
+
+      <ion-item>
+        <ion-label>Aire Grenobloise</ion-label>
+        <ion-button color="light"><ion-icon name="download-outline" ></ion-icon></ion-button>
+      </ion-item>
+    </ion-list>
+  </div>
 
 </ion-content>

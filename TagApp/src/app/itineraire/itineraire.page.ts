@@ -5,8 +5,13 @@ import { Component } from '@angular/core';
   templateUrl: 'itineraire.page.html',
   styleUrls: ['itineraire.page.scss']
 })
+
 export class ItinerairePage {
 
-  constructor() {}
+  myDate: any;
+
+  constructor() {
+
+  }
 
 }

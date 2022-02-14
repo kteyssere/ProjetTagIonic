@@ -4,12 +4,41 @@
       <ion-menu-button></ion-menu-button>
     </ion-button>
     <ion-title>
-      Itineraire
+      Recherche d'itineraire
     </ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content [fullscreen]="true">
+
+  <ion-input placeholder="  Départ*" required="true" style="border: solid 1px grey; border-radius: 0.4em; padding: 15px; margin: 15px; height: 50px; width: auto"></ion-input>
+  <ion-input placeholder="  Arrivée*" required="true" style="border: solid 1px grey; border-radius: 0.4em; padding: 15px; margin: 15px; height: 50px; width: auto"></ion-input>
+
+  <ion-item>
+    <ion-datetime displayFormat="MMM DD, YYYY HH:mm" [(ngModel)]="myDate"></ion-datetime>
+  </ion-item>
+
+  <ion-item>
+    <ion-label>Arriver/partir...</ion-label>
+    <ion-select value="apres">
+      <ion-select-option value="avant">Arriver avant</ion-select-option>
+      <ion-select-option value="apres">Partir après</ion-select-option>
+    </ion-select>
+  </ion-item>
+
+  <ion-item>
+    <ion-label>Modes de déplacement</ion-label>
+    <ion-select multiple="true" value="tram/bus">
+      <ion-select-option value="tram/bus">Tram/Bus</ion-select-option>
+      <ion-select-option value="voiture">Voiture</ion-select-option>
+      <ion-select-option value="velo">Vélo</ion-select-option>
+      <ion-select-option value="pied">A pied</ion-select-option>
+      <ion-select-option value="covoiturage">Covoiturage</ion-select-option>
+    </ion-select>
+  </ion-item>
+
+  <ion-button color="danger" style="padding-left: 17px; margin-top: 90px"><ion-icon name="heart"></ion-icon></ion-button>
+  <ion-button color="light" style="float: right; padding-right: 17px; margin-top: 90px"><ion-icon name="navigate" ></ion-icon> Go !</ion-button>
 
 
 </ion-content>

@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
-import {HttpClient} from "@angular/common/http";
-import {Observable} from "rxjs";
+import {HttpClient} from '@angular/common/http';
+import {Observable} from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -14,16 +14,24 @@ export class ApiService {
 
   constructor(private http: HttpClient) { }
 
-  getPoints(): Observable<any>{
-    return this.http.get(this.url+'bbox/json?types='+this.types);
+  getPoints(type: string): Observable<any>{
+    return this.http.get(this.url+'bbox/json?types='+type);
   }
 
-  findType(): Observable<any>{
-    return this.http.get(this.url+'findType/json?types='+this.types+'&query='+this.recherche);
+  findType(type: string, recherche: string): Observable<any>{
+    return this.http.get(this.url+'findType/json?types='+type+'&query='+recherche);
   }
 
-  findHoraires(){
-    return this.http.get(this.url+'routers/default/index/routes?codes='+this.codeLigne);
+  findHoraires(codeLigne: string){
+    return this.http.get(this.url+'routers/default/index/routes?codes='+codeLigne);
   }
 
+  getPointsProxi(longitude: number, latitude: number){
+    return this.http.get(this.url+'linesNear/json?x='+longitude+'&y='+latitude+'&dist=400&details=true');
+    // return this.http.get(this.url+'linesNear/json?x=5.709360123&y=45.176494599999984&dist=400&details=true ');
+  }
+
+  getListLignes(){
+    return this.http.get(this.url+'routers/default/index/routes');
+  }
 }

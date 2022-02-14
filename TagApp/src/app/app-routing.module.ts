@@ -9,7 +9,7 @@ const routes: Routes = [
   {
     path: 'lignes',
     loadChildren: () => import('./lignes/lignes.module').then( m => m.LignesPageModule)
-  }
+  },
 ];
 @NgModule({
   imports: [
