@@ -10,6 +10,7 @@ import {CartePage} from '../carte/carte.page';
 export class MenuComponent implements OnInit {
 
   private tab: string[] = [];
+  buttonActive: boolean = true;
 
   constructor(private carte: CartePage) { }
 

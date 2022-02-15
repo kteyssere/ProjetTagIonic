@@ -5,6 +5,9 @@ import { Geolocation } from '@awesome-cordova-plugins/geolocation/ngx';
 import {ApiService} from '../services/api.service';
 import {map} from 'rxjs/operators';
 import {ModalController} from '@ionic/angular';
+import {MenuComponent} from "../menu/menu.component";
+import {FavorisPage} from "../favoris/favoris.page";
+import {InfoLigneModalPage} from "../info-ligne-modal/info-ligne-modal.page";
 
 @Component({
   selector: 'app-carte',
@@ -15,6 +18,8 @@ export class CartePage implements OnInit, OnDestroy{
 
   map: Leaflet.Map;
   modalOpen: boolean;
+  modalIsOpen: boolean;
+
   interfaceInfo: Info[] = [];
   private lat: number;
   private lng: number;
@@ -25,14 +30,16 @@ export class CartePage implements OnInit, OnDestroy{
   private lngPin: number;
   private tramMarker: any;
   private tabInfo: object;
+  private mode = 'tram/bus';
 
-  constructor(private geolocation: Geolocation, private api: ApiService) {
+  constructor(private geolocation: Geolocation, private api: ApiService, public modalController: ModalController) {
     this.modalOpen = false;
     this.loadTroncons();
+    this.modalIsOpen = false;
   }
 
   ngOnInit() {
-    this.loadPoints('pointArret');
+    // this.loadPoints('pointArret');
     this.geolocation.getCurrentPosition({
       timeout: 1000,
       enableHighAccuracy:true
@@ -61,8 +68,8 @@ export class CartePage implements OnInit, OnDestroy{
     }).addTo(this.map);
 
     let pin = Leaflet.icon({
-      iconUrl: 'assets/pin.svg',
-      iconSize: [25, 55],
+      iconUrl: 'assets/geolocation-pin.png',
+      iconSize: [50, 50],
     });
 
     let _this = this;
@@ -77,14 +84,16 @@ export class CartePage implements OnInit, OnDestroy{
     });
 
     this.map.on('moveend',function(e){
-      console.log(e);
-      console.log(_this.map.getCenter());
-      const coord=_this.map.getCenter();
-      // let lat=coord[0].split('(');
-      // let long=coord[1].split(')');
-      _this.lat = coord.lat;
-      _this.lng = coord.lng;
-      _this.loadProxi();
+      if(_this.mode === 'tram/bus'){
+        console.log(e);
+        console.log(_this.map.getCenter());
+        const coord=_this.map.getCenter();
+        // let lat=coord[0].split('(');
+        // let long=coord[1].split(')');
+        _this.lat = coord.lat;
+        _this.lng = coord.lng;
+        _this.loadProxi();
+      }
     });
 
     // Leaflet.marker([45.192655, 5.718039]).addTo(this.map).bindPopup('Delhi').openPopup();
@@ -93,32 +102,10 @@ export class CartePage implements OnInit, OnDestroy{
     //   { color: '#FF0000', weight: 5, opacity: 0.6 })
     //   .addTo(this.map);
 
-    let bus = Leaflet.icon({
-      iconUrl: 'assets/bus.svg',
-      iconSize: [38, 95],
-      iconAnchor: [22, 94],
-      popupAnchor: [-3, -76],
-      shadowSize: [68, 95],
-      shadowAnchor: [22, 94]
-    });
 
-    let car = Leaflet.icon({
-      iconUrl: 'assets/car.svg',
-      iconSize: [38, 95],
-      iconAnchor: [22, 94],
-      popupAnchor: [-3, -76],
-      shadowSize: [68, 95],
-      shadowAnchor: [22, 94]
-    });
 
-    let bicycle = Leaflet.icon({
-      iconUrl: 'assets/bicycle.svg',
-      iconSize: [38, 95],
-      iconAnchor: [22, 94],
-      popupAnchor: [-3, -76],
-      shadowSize: [68, 95],
-      shadowAnchor: [22, 94]
-    });
+
+
 
     let pinMarker = Leaflet.marker([this.latPin, this.lngPin], {icon: pin}).addTo(this.map);
 
@@ -137,11 +124,48 @@ export class CartePage implements OnInit, OnDestroy{
     this.api.getPoints(type).subscribe(
       (d) => {
         console.log('got it');
+        console.log(d);
+
+        let bicycle = Leaflet.icon({
+          iconUrl: 'assets/bicycle-pin.png',
+          iconSize: [50, 80],
+          iconAnchor: [22, 94],
+          popupAnchor: [-3, -76],
+          shadowSize: [68, 95],
+          shadowAnchor: [22, 94]
+        });
+        let car = Leaflet.icon({
+          iconUrl: 'assets/car-pin.png',
+          iconSize: [50, 80],
+          iconAnchor: [22, 94],
+          popupAnchor: [-3, -76],
+          shadowSize: [68, 95],
+          shadowAnchor: [22, 94]
+        });
         //console.log(d);
         // console.log(d['geometry']);
         // console.log(d['features']);
+        let image = '';
         for(let f of d['features']){
-          this.tab.push(f['geometry']['coordinates']);
+          let long = f['geometry']['coordinates'][0];
+          let lat = f['geometry']['coordinates'][1];
+          if(f['properties']['type']==='citelib'){
+            this.mode = 'velo';
+            image = 'bicycle';
+          }
+          if(f['properties']['type']==='PKG'){
+            this.mode = 'voiture';
+            image = 'car';
+          }
+          //this.tab.push(f['geometry']['coordinates']);
+          if(this.mode === 'velo'){
+            Leaflet.marker([lat, long], {icon: bicycle}).addTo(this.map);
+          }
+          if(this.mode === 'voiture'){
+            Leaflet.marker([lat, long], {icon: car}).addTo(this.map);
+          }
+
+
 
           //f['properties']['CODE']
           //f['properties']['COMMUNE']
@@ -163,23 +187,6 @@ export class CartePage implements OnInit, OnDestroy{
           // Leaflet.marker([this.tab[f][1], this.tab[f][0]], {icon: bus}).addTo(this.map);
 
         }
-        let bus = Leaflet.icon({
-          iconUrl: 'assets/bus.svg',
-          iconSize: [38, 95],
-          iconAnchor: [22, 94],
-          popupAnchor: [-3, -76],
-          shadowSize: [68, 95],
-          shadowAnchor: [22, 94]
-        });
-        console.log(this.tab[1][1]);
-
-        // Leaflet.marker([this.tab[1][1], this.tab[1][0]], {icon: bus}).addTo(this.map);
-        //
-        // for(let t = 0 ; t < this.tab.length ; t++){
-        //   Leaflet.marker([this.tab[t][1], this.tab[t][0]], {icon: bus}).addTo(this.map);
-        //   break;
-        //   //console.log('testestestest'+this.tab[t][1]+' '+this.tab[t][0]);
-        // }
 
       }
     );
@@ -193,13 +200,22 @@ export class CartePage implements OnInit, OnDestroy{
   }
 
   loadProxi(){
+    this.mode = 'tram/bus';
     this.api.getPointsProxi(this.lng, this.lat).subscribe(
       (d) => {
         console.log('got it');
         console.log(d);
         let bus = Leaflet.icon({
-          iconUrl: 'assets/bus.svg',
-          iconSize: [30, 40],
+          iconUrl: 'assets/bus-pin.png',
+          iconSize: [50, 80],
+          iconAnchor: [22, 94],
+          popupAnchor: [-3, -76],
+          shadowSize: [68, 95],
+          shadowAnchor: [22, 94]
+        });
+        let tram = Leaflet.icon({
+          iconUrl: 'assets/tram-pin.png',
+          iconSize: [50, 80],
           iconAnchor: [22, 94],
           popupAnchor: [-3, -76],
           shadowSize: [68, 95],
@@ -211,44 +227,96 @@ export class CartePage implements OnInit, OnDestroy{
 
           console.log(this.tabInfo);
           this.tramMarker = Leaflet.marker([d[f]['lat'], d[f]['lon']], {icon: bus}).addTo(this.map).on('click', function(e) {
-            console.log(e.latlng);
-            _this.modalOpen = true;
 
-            if (_this.modalOpen === true){
-              _this.interfaceInfo.push({
-                name: d[f]['name'],
-                lines: d[f]['lines'],
-              });
-            } else {
-              _this.interfaceInfo = [];
-            }
-            // _this.modalOpen = !_this.modalOpen;
+            _this.interfaceInfo.push({
+              name: d[f]['name'],
+              lines: d[f]['lines'],
+            });
 
-            // _this.interfaceInfo.push({
-            //   name: d[f]['name'],
-            //   lines: d[f]['lines'],
-            // });
+            _this.openModal(d[f]['name'], d[f]['lines']);
+
+            //_this.modalOpen = true;
+            //if (_this.modalOpen = true) {
+
+             // _this.modalOpen = false;
+            //}
+           // _this.modalOpen = !_this.modalOpen;
           });
 
         }
-
         console.log(this.tramMarker);
         // console.log(d['geometry']);
         // console.log(d['features']);
         // for(let f of d['features']) {
         //   this.tabProxi.push(f['geometry']['coordinates']);
         // }
-
         });
 }
+
   loadTroncons(){
     this.api.getTronconsLignes().subscribe(
-      (data => {
+      (data) => {
         console.log(data);
-      }));
+        antPath([this.connectDots(data)],
+          { color: '#FF0000', weight: 5, opacity: 0.6 })
+          .addTo(this.map);
+        // var c = [];
+        // for(let f of data['features']){
+        //   console.log('jshfjhdf');
+        //   console.log(f['geometry']['coordinates']);
+        // }
+
+
+        // Leaflet.polyline(this.connectDots(data)).addTo(this.map);
+        //
+        //
+        // for(let t=0 ; t < data['length'] ; t++){
+        //   var x = data._layers[i]._latlng.lat;
+        //   var y = data._layers[i]._latlng.lng;
+        //   c.push([x, y]);
+        //   Leaflet.marker([d[f]['lat'], d[f]['lon']], {icon: bus}).addTo(this.map);
+        // }
+      });
   }
+
+  connectDots(data) {
+    var c = [];
+    // for (let i = 0; i < data['length']; i += 1) {
+    //   c.push(data[i]['geometry']['coordinates']);
+    // }
+    for(let f of data['features']){
+      c.push(f['geometry']['coordinates']);
+    }
+    return c;
+  }
+
+
+  async openModal(name: any, lines: any) {
+    const modal = await this.modalController.create({
+      component: InfoLigneModalPage,
+      initialBreakpoint: 0.192,
+      breakpoints: [0.192, 0.30, 0.50],
+      componentProps: {
+        "name": name,
+        "lines": lines
+      }
+    });
+
+    modal.onDidDismiss().then((dataReturned) => {
+      if (dataReturned !== null) {
+        this.interfaceInfo.pop();
+        //alert('Modal Sent Data :'+ dataReturned);
+      }
+
+      console.log('testestestestestest');
+    });
+
+    return await modal.present();
+  }
+
 }
 export interface Info{
   name: string;
   lines: string;
 }
+

@@ -1,0 +1,12 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>{{name}}</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <div *ngFor="let item of lines" style="text-align: center; margin-top: 30px; font-weight: bold; background-color: #3880ff; width: 80px; margin-left: 37px; margin-right: auto; border-radius: 0.5em; height: 30px; padding-top: 5px; display: inline-grid; text-align: center;">
+    {{item.substring(4)}}
+  </div>
+
+</ion-content>

@@ -10,6 +10,10 @@ const routes: Routes = [
     path: 'lignes',
     loadChildren: () => import('./lignes/lignes.module').then( m => m.LignesPageModule)
   },
+  {
+    path: 'info-ligne-modal',
+    loadChildren: () => import('./info-ligne-modal/info-ligne-modal.module').then( m => m.InfoLigneModalPageModule)
+  },
 ];
 @NgModule({
   imports: [

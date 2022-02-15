@@ -1,8 +1,8 @@
 <div id="modal">
-  <ion-button style="width: auto" (click)="loadProxi()"><ion-icon name="bus"></ion-icon></ion-button>
-  <ion-button style="width: auto" (click)="loadPoints('hamo')"><ion-icon name="bicycle"></ion-icon></ion-button>
-  <ion-button style="width: auto" (click)="loadPoints('bus')"> <ion-icon name="car"></ion-icon></ion-button>
-  <ion-button style="width: auto" (click)="loadPoints('bus')"><ion-icon name="star-outline"></ion-icon></ion-button>
+  <ion-button [ngClass]="{'activated' : buttonActive}" style="width: 85px" (click)="loadProxi()"><ion-icon name="bus"></ion-icon></ion-button>
+  <ion-button style="width: auto" style="width: 85px" (click)="loadPoints('citelib')"><ion-icon name="bicycle"></ion-icon></ion-button>
+  <ion-button style="width: auto" style="width: 85px" (click)="loadPoints('PKG')"> <ion-icon name="car"></ion-icon></ion-button>
+  <ion-button style="width: auto" style="width: 85px" (click)="loadPoints('bus')"><ion-icon name="star-outline"></ion-icon></ion-button>
   <p>Bus/Tram</p><p>Vélo</p><p>Voiture</p><p>Personalisé</p>
 </div>
 
