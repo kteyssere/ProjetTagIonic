@@ -11,7 +11,14 @@
 
 <ion-content [fullscreen]="true">
 
-  <p>Vous n'avez pas de favoris actuellement. Ajoutez-en en tapant sur les coeurs.</p>
+  <div *ngIf="tab.length === 0; else elseBlock">
+    <p style="margin-top: 250px; margin-right: 30px; margin-left: 30px; text-align: center">Vous n'avez pas de favoris actuellement. Ajoutez-en en tapant sur le coeur.</p>
+  </div>
+  <ng-template #elseBlock>
+    <div *ngFor="let item of tab">
+      <p>De {{item.depart}} à {{item.arrivee}}</p>
+    </div>
+  </ng-template>
 
 
 </ion-content>

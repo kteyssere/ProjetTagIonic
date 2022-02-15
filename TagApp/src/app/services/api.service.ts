@@ -34,4 +34,9 @@ export class ApiService {
   getListLignes(){
     return this.http.get(this.url+'routers/default/index/routes');
   }
+
+  getTronconsLignes(){
+    return this.http.get(this.url+'troncons/json');
+  }
+
 }

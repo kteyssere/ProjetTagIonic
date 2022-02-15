@@ -51,7 +51,6 @@ export class LignesPage implements OnInit {
   loadList(){
     this.api.getListLignes().subscribe(
       (data => {
-
         for(let d = 0 ; d < data['length'] ; d++){
           console.log(data[d]['type']);
           this.tab.push(data[d]);
@@ -138,10 +137,7 @@ export class LignesPage implements OnInit {
           }
         }
         console.log(this.tab);
-
         console.log(this.tram);
-
-
       }));
   }
 

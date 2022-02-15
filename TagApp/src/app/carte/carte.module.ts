@@ -6,7 +6,7 @@ import { CartePage } from './carte.page';
 import { ExploreContainerComponentModule } from '../explore-container/explore-container.module';
 
 import { CartePageRoutingModule } from './carte-routing.module';
-import {MenuComponent} from "../menu/menu.component";
+import {MenuComponent} from '../menu/menu.component';
 
 @NgModule({
   imports: [
