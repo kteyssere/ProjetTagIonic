@@ -12,6 +12,9 @@ import {CarsRegionExpress} from "../interfaces/cars-region-express";
 import {MCovoitLignes} from "../interfaces/mcovoit-lignes";
 import {DocumentViewer} from "@awesome-cordova-plugins/document-viewer/ngx";
 import {DocumentViewerOptions} from "@awesome-cordova-plugins/document-viewer";
+import {ModalController} from "@ionic/angular";
+import {InfoLigneModalPage} from "../info-ligne-modal/info-ligne-modal.page";
+import {DetailLignesPage} from "../detail-lignes/detail-lignes.page";
 
 @Component({
   selector: 'app-lignes',
@@ -37,7 +40,7 @@ export class LignesPage implements OnInit {
   mcovoitlignes: MCovoitLignes[] = [];
 
 
-  constructor(private api: ApiService, private document: DocumentViewer) { }
+  constructor(private api: ApiService, private document: DocumentViewer, public modalController: ModalController) { }
 
   ngOnInit() {
     this.selectedSeg = 'lignes';
@@ -147,4 +150,26 @@ export class LignesPage implements OnInit {
     };
     this.document.viewDocument(src, 'application/pdf', options);
   }
+
+  async openModal(item: any) {
+    const modal = await this.modalController.create({
+      component: DetailLignesPage,
+      initialBreakpoint: 0.88,
+      breakpoints: [0.25, 0.50, 0.88],
+      componentProps: {
+        "item": item,
+      }
+    });
+
+    modal.onDidDismiss().then((dataReturned) => {
+      if (dataReturned !== null) {
+      }
+
+      console.log('testestestestestest');
+    });
+
+    return await modal.present();
+  }
+
+
 }

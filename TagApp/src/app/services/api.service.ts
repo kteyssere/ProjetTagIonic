@@ -39,4 +39,15 @@ export class ApiService {
     return this.http.get(this.url+'troncons/json');
   }
 
+  // getInfoLignes(id: number){
+  //   // return this.http.get(this.url+'lines/json');
+  //   return this.http.get('http://data.mobilites-m.fr/api/routers/default/index/stops/'+id+'/stoptimes');
+  // }
+  getInfoLignes(id: number){
+    let epochNow = (new Date()).getTime();
+    console.log(epochNow);
+    return this.http.get(this.url+'ficheHoraires/json?route='+id+'&time='+epochNow);
+
+  }
+
 }

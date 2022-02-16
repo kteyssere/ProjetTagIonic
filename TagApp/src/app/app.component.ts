@@ -14,4 +14,14 @@ export class AppComponent {
     { title: 'A propos', url: '/display-json', icon: 'information-circle' },
   ];
   constructor() {}
+
+
+  toggleTheme(event: any) {
+    if(event.detail.checked){
+      document.body.setAttribute("color-theme","dark");
+    }else{
+      document.body.setAttribute("color-theme","light");
+    }
+  }
+
 }

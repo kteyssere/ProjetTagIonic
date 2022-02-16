@@ -1,0 +1,19 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Liste des arrêts</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+
+  <div *ngIf="stopName.length === 0; else elseBlock">
+    <p style="text-align: center; margin-top: 20px">Pas de passage</p>
+  </div>
+
+  <ng-template #elseBlock>
+    <div *ngFor="let item of stopName">
+      <p style="text-align: center; margin-top: 20px; margin-left: 10px; margin-right: 10px">{{item}}</p>
+    </div>
+  </ng-template>
+
+</ion-content>

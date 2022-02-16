@@ -3,10 +3,7 @@ import * as Leaflet from 'leaflet';
 import { antPath } from 'leaflet-ant-path';
 import { Geolocation } from '@awesome-cordova-plugins/geolocation/ngx';
 import {ApiService} from '../services/api.service';
-import {map} from 'rxjs/operators';
 import {ModalController} from '@ionic/angular';
-import {MenuComponent} from "../menu/menu.component";
-import {FavorisPage} from "../favoris/favoris.page";
 import {InfoLigneModalPage} from "../info-ligne-modal/info-ligne-modal.page";
 
 @Component({
@@ -20,26 +17,31 @@ export class CartePage implements OnInit, OnDestroy{
   modalOpen: boolean;
   modalIsOpen: boolean;
 
-  interfaceInfo: Info[] = [];
   private lat: number;
   private lng: number;
-  private tab: string[] = [];
 
-  private tabProxi: any[] = [];
   private latPin: number;
   private lngPin: number;
   private tramMarker: any;
   private tabInfo: object;
   private mode = 'tram/bus';
+  private veloMarker: any;
+  private voitureMarker: any;
+  private markerVoitureTab: any[] = [];
+  private markerTramTab: any[] = [];
+  private markerVeloTab: any[] = [];
 
   constructor(private geolocation: Geolocation, private api: ApiService, public modalController: ModalController) {
+
     this.modalOpen = false;
-    this.loadTroncons();
     this.modalIsOpen = false;
   }
 
   ngOnInit() {
-    // this.loadPoints('pointArret');
+    //Cherge le chemin tracé des lignes
+    this.loadTroncons();
+
+    //Prend la position gps actuelle
     this.geolocation.getCurrentPosition({
       timeout: 1000,
       enableHighAccuracy:true
@@ -57,22 +59,35 @@ export class CartePage implements OnInit, OnDestroy{
     }).catch((error) => {
       console.log('Error getting location', error);
     });
-  }
-  ionViewDidEnter() { this.leafletMap(); }
 
+  }
+  ionViewDidEnter() {
+    if(Leaflet !== undefined){
+      this.leafletMap();
+    }
+
+  }
+
+  //Créer la map
   leafletMap() {
     this.map = Leaflet.map('map').setView([this.lat, this.lng]);
     this.map.setZoom(18);
-    Leaflet.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-      attribution: 'edupala.com © Angular LeafLet',
-    }).addTo(this.map);
 
+    if(Leaflet !== undefined){
+      Leaflet.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: 'edupala.com © Angular LeafLet',
+      }).addTo(this.map);
+   }
+
+    //Image de la pin
     let pin = Leaflet.icon({
       iconUrl: 'assets/geolocation-pin.png',
       iconSize: [50, 50],
     });
 
     let _this = this;
+
+    //Event sur le zoom
     this.map.on('zoomend',function(e){
       console.log(e);
       console.log(_this.map._zoom);
@@ -83,36 +98,21 @@ export class CartePage implements OnInit, OnDestroy{
       }
     });
 
+    //Event sur le mouvement sur la carte
     this.map.on('moveend',function(e){
       if(_this.mode === 'tram/bus'){
-        console.log(e);
-        console.log(_this.map.getCenter());
         const coord=_this.map.getCenter();
-        // let lat=coord[0].split('(');
-        // let long=coord[1].split(')');
         _this.lat = coord.lat;
         _this.lng = coord.lng;
         _this.loadProxi();
       }
     });
 
-    // Leaflet.marker([45.192655, 5.718039]).addTo(this.map).bindPopup('Delhi').openPopup();
-
-    // antPath([[28.644800, 77.216721], [34.1526, 77.5771]],
-    //   { color: '#FF0000', weight: 5, opacity: 0.6 })
-    //   .addTo(this.map);
+    if(Leaflet !== undefined){
+      Leaflet.marker([this.latPin, this.lngPin], {icon: pin}).addTo(this.map);
+    }
 
 
-
-
-
-
-    let pinMarker = Leaflet.marker([this.latPin, this.lngPin], {icon: pin}).addTo(this.map);
-
-    // let myMarker = Leaflet.marker([45.192655, 5.718039], {icon: myIcon}).addTo(this.map);
-    // let myMarker2 = Leaflet.marker([45.192655, 5.718039], {icon: myIcon}).addTo(this.map);
-    // let group = new Leaflet.featureGroup([myMarker, myMarker2]);
-    // this.map.fitBounds(group.getBounds());
   }
 
   /** Remove map when we have multiple map object */
@@ -120,12 +120,12 @@ export class CartePage implements OnInit, OnDestroy{
     this.map.remove();
   }
 
+  //Charge les velos et parkings sur la carte
   loadPoints(type: string){
     this.api.getPoints(type).subscribe(
       (d) => {
-        console.log('got it');
-        console.log(d);
 
+        //Image velo
         let bicycle = Leaflet.icon({
           iconUrl: 'assets/bicycle-pin.png',
           iconSize: [50, 80],
@@ -134,6 +134,8 @@ export class CartePage implements OnInit, OnDestroy{
           shadowSize: [68, 95],
           shadowAnchor: [22, 94]
         });
+
+        //Image voiture
         let car = Leaflet.icon({
           iconUrl: 'assets/car-pin.png',
           iconSize: [50, 80],
@@ -142,69 +144,119 @@ export class CartePage implements OnInit, OnDestroy{
           shadowSize: [68, 95],
           shadowAnchor: [22, 94]
         });
-        //console.log(d);
-        // console.log(d['geometry']);
-        // console.log(d['features']);
-        let image = '';
+
         for(let f of d['features']){
+
           let long = f['geometry']['coordinates'][0];
           let lat = f['geometry']['coordinates'][1];
+
           if(f['properties']['type']==='citelib'){
             this.mode = 'velo';
-            image = 'bicycle';
+
+            //Efface les marker de voiture si on veut les markers de velo
+            if(this.markerVoitureTab.length !== 0){
+              for(let voiture of this.markerVoitureTab){
+                if(Leaflet !== undefined){
+                  this.map.removeLayer(voiture);
+                }
+              }
+              this.markerVoitureTab.pop();
+            }
+
+            //Efface les marker de tram si on veut les markers de velo
+            if(this.markerTramTab.length !== 0){
+              for(let tram of this.markerTramTab){
+                if(Leaflet !== undefined) {
+                  this.map.removeLayer(tram);
+                }
+              }
+              this.markerTramTab.pop();
+            }
+
           }
+
           if(f['properties']['type']==='PKG'){
             this.mode = 'voiture';
-            image = 'car';
+
+            //Efface les marker de velo si on veut les markers de voiture
+            if(this.markerVeloTab.length !== 0){
+              for(let velo of this.markerVeloTab){
+                if(Leaflet !== undefined) {
+                  this.map.removeLayer(velo);
+                }
+              }
+              this.markerVeloTab.pop();
+            }
+
+            //Efface les marker de tram si on veut les markers de voiture
+            if(this.markerTramTab.length !== 0){
+              for(let tram of this.markerTramTab){
+                if(Leaflet !== undefined) {
+                  this.map.removeLayer(tram);
+                }
+              }
+              this.markerTramTab.pop();
+
+              console.log('test');
+              //this.tramMarker = null;
+            }
+
           }
-          //this.tab.push(f['geometry']['coordinates']);
+
+          //Ajoute des marker de velo
           if(this.mode === 'velo'){
-            Leaflet.marker([lat, long], {icon: bicycle}).addTo(this.map);
+            if(Leaflet !== undefined){
+              this.veloMarker = Leaflet.marker([lat, long], {icon: bicycle}).addTo(this.map);
+            }
+            this.markerVeloTab.push(this.veloMarker);
           }
+
+          //Ajoute des marker de voiture
           if(this.mode === 'voiture'){
-            Leaflet.marker([lat, long], {icon: car}).addTo(this.map);
+            if(Leaflet !== undefined) {
+              this.voitureMarker = Leaflet.marker([lat, long], {icon: car}).addTo(this.map);
+            }
+            this.markerVoitureTab.push(this.voitureMarker);
           }
-
-
-
-          //f['properties']['CODE']
-          //f['properties']['COMMUNE']
-          //f['properties']['LIBELLE']
-          //f['properties']['PMR']
-          //f['properties']['ZONE']
-          //f['properties']['id']
-          //f['properties']['lgn']
-          //f['properties']['type']
-          //console.log('testestestest'+this.tab['features']['properties']['geometry']['coordinates'][1]);
-          // let bus = Leaflet.icon({
-          //   iconUrl: 'assets/bus.svg',
-          //   iconSize: [38, 95],
-          //   iconAnchor: [22, 94],
-          //   popupAnchor: [-3, -76],
-          //   shadowSize: [68, 95],
-          //   shadowAnchor: [22, 94]
-          // });
-          // Leaflet.marker([this.tab[f][1], this.tab[f][0]], {icon: bus}).addTo(this.map);
-
         }
-
-      }
-    );
-
+      });
   }
 
+  //Recherge la position au moment du click sur le bouton
   refreshPosition() {
-    // this.map = Leaflet.map('map').setView([this.lat, this.lng], 5);
     this.map.setView([this.latPin, this.lngPin], 30);
-    console.log('refresh to'+this.latPin+','+this.lngPin);
   }
 
+  //Charge les points d'arrets les plus proches
   loadProxi(){
+
     this.mode = 'tram/bus';
+
+    //Efface les marker de velo si on veut les markers de tram/bus
+    if(this.markerVeloTab.length !== 0){
+      //this.map.removeLayer(this.veloMarker);
+      //this.veloMarker = null;
+      for(let velo of this.markerVeloTab){
+        if(Leaflet !== undefined) {
+          this.map.removeLayer(velo);
+        }
+      }
+      this.markerVeloTab.pop();
+    }
+
+    //Efface les marker de voiture si on veut les markers de tram/bus
+    if(this.markerVoitureTab.length !== 0){
+      for(let voiture of this.markerVoitureTab){
+        if(Leaflet !== undefined) {
+          this.map.removeLayer(voiture);
+        }
+      }
+      this.markerVoitureTab.pop();
+    }
+
     this.api.getPointsProxi(this.lng, this.lat).subscribe(
       (d) => {
-        console.log('got it');
-        console.log(d);
+
         let bus = Leaflet.icon({
           iconUrl: 'assets/bus-pin.png',
           iconSize: [50, 80],
@@ -213,61 +265,53 @@ export class CartePage implements OnInit, OnDestroy{
           shadowSize: [68, 95],
           shadowAnchor: [22, 94]
         });
-        let tram = Leaflet.icon({
-          iconUrl: 'assets/tram-pin.png',
-          iconSize: [50, 80],
-          iconAnchor: [22, 94],
-          popupAnchor: [-3, -76],
-          shadowSize: [68, 95],
-          shadowAnchor: [22, 94]
-        });
+
         let _this = this;
 
         for(let f=0 ; f < d['length'] ; f++) {
 
-          console.log(this.tabInfo);
-          this.tramMarker = Leaflet.marker([d[f]['lat'], d[f]['lon']], {icon: bus}).addTo(this.map).on('click', function(e) {
+          //Ajoute des marker de tram et un onClick envent
+          if(Leaflet !== undefined) {
+            this.tramMarker = Leaflet.marker([d[f]['lat'], d[f]['lon']], {icon: bus}).addTo(this.map).on('click', function (e) {
+              console.log(e);
+              //e.originalEvent = PointerEvent;
+              // e.originalEvent.originalEvent.isTrusted;
 
-            _this.interfaceInfo.push({
-              name: d[f]['name'],
-              lines: d[f]['lines'],
+              //Ouvre le modal au moment du click
+              _this.openModal(d[f]['name'], d[f]['lines']);
+
             });
-
-            _this.openModal(d[f]['name'], d[f]['lines']);
-
-            //_this.modalOpen = true;
-            //if (_this.modalOpen = true) {
-
-             // _this.modalOpen = false;
-            //}
-           // _this.modalOpen = !_this.modalOpen;
-          });
+          }
+          this.markerTramTab.push(this.tramMarker);
 
         }
-        console.log(this.tramMarker);
-        // console.log(d['geometry']);
-        // console.log(d['features']);
-        // for(let f of d['features']) {
-        //   this.tabProxi.push(f['geometry']['coordinates']);
-        // }
         });
 }
 
+  //Charge les tracés des lignes
   loadTroncons(){
     this.api.getTronconsLignes().subscribe(
       (data) => {
         console.log(data);
-        antPath([this.connectDots(data)],
-          { color: '#FF0000', weight: 5, opacity: 0.6 })
-          .addTo(this.map);
         // var c = [];
-        // for(let f of data['features']){
-        //   console.log('jshfjhdf');
-        //   console.log(f['geometry']['coordinates']);
-        // }
+        for(let f of data['features']){
+
+          let latlngsArr = f['geometry']['coordinates'];
+          // console.log(f['geometry']);
+          // console.log(latlngsArr);
+          for (let k = 0; k < latlngsArr.length; k++) {
+            latlngsArr[k] = latlngsArr[k].reverse();
+          }
+        console.log(latlngsArr);
+
+          if( Leaflet !== undefined){
+            let polyline = Leaflet.polyline(latlngsArr, {color: 'blue'}).addTo(this.map);
+            this.map.fitBounds(polyline.getBounds());
+          }
+        }
+        Leaflet.polyline(this.connectDots(data)).addTo(this.map);
 
 
-        // Leaflet.polyline(this.connectDots(data)).addTo(this.map);
         //
         //
         // for(let t=0 ; t < data['length'] ; t++){
@@ -290,7 +334,7 @@ export class CartePage implements OnInit, OnDestroy{
     return c;
   }
 
-
+  //Ouvre le modal info ligne
   async openModal(name: any, lines: any) {
     const modal = await this.modalController.create({
       component: InfoLigneModalPage,
@@ -304,8 +348,6 @@ export class CartePage implements OnInit, OnDestroy{
 
     modal.onDidDismiss().then((dataReturned) => {
       if (dataReturned !== null) {
-        this.interfaceInfo.pop();
-        //alert('Modal Sent Data :'+ dataReturned);
       }
 
       console.log('testestestestestest');
@@ -315,8 +357,3 @@ export class CartePage implements OnInit, OnDestroy{
   }
 
 }
-export interface Info{
-  name: string;
-  lines: string;
-}
-

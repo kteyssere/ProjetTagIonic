@@ -29,7 +29,7 @@
 
       <ion-card-content>
         <div *ngFor="let item of tram; index as i" style="display: inline-block">
-          <ion-button style="{{(item.color ? '--background: #'+item.color+'; --background-activated: #'+item.color : '' )}}" >{{item.name}}</ion-button>
+          <ion-button (click)="openModal(item.id)" style="{{(item.color ? '--background: #'+item.color+'; --background-activated: #'+item.color : '' )}}" >{{item.name}}</ion-button>
         </div>
       </ion-card-content>
     </ion-card>
@@ -42,7 +42,7 @@
 
       <ion-card-content>
         <div *ngFor="let item of navette; index as i" style="display: inline-block">
-          <ion-button style="{{(item.color ? '--background: #'+item.color+'; --background-activated: #'+item.color : '' )}}" >{{item.name}}</ion-button>
+          <ion-button (click)="openModal(item.id)" style="{{(item.color ? '--background: #'+item.color+'; --background-activated: #'+item.color : '' )}}" >{{item.name}}</ion-button>
         </div>
       </ion-card-content>
     </ion-card>
@@ -55,7 +55,7 @@
 
       <ion-card-content>
         <div *ngFor="let item of chrono; index as i" style="display: inline-block">
-          <ion-button style="{{(item.color ? '--background: #'+item.color+'; --background-activated: #'+item.color+'; --color: black' : '' )}}" >{{item.name}}</ion-button>
+          <ion-button (click)="openModal(item.id)" style="{{(item.color ? '--background: #'+item.color+'; --background-activated: #'+item.color+'; --color: black' : '' )}}" >{{item.name}}</ion-button>
         </div>
       </ion-card-content>
     </ion-card>
@@ -70,7 +70,7 @@
 
       <ion-card-content>
         <div *ngFor="let item of proximo; index as i" style="display: inline-block">
-          <ion-button style="{{(item.color ? '--background: #'+item.color+'; --background-activated: #'+item.color : '' )}}" >{{item.name}}</ion-button>
+          <ion-button (click)="openModal(item.id)" style="{{(item.color ? '--background: #'+item.color+'; --background-activated: #'+item.color : '' )}}" >{{item.name}}</ion-button>
         </div>
       </ion-card-content>
     </ion-card>
@@ -83,7 +83,7 @@
 
       <ion-card-content>
         <div *ngFor="let item of flexo; index as i" style="display: inline-block">
-          <ion-button style="{{(item.color ? '--background: #'+item.color+'; --background-activated: #'+item.color : '' )}}" >{{item.name}}</ion-button>
+          <ion-button (click)="openModal(item.id)" style="{{(item.color ? '--background: #'+item.color+'; --background-activated: #'+item.color : '' )}}" >{{item.name}}</ion-button>
         </div>
       </ion-card-content>
     </ion-card>
@@ -95,7 +95,7 @@
 
       <ion-card-content>
         <div *ngFor="let item of carsregionexpress; index as i" style="display: inline-block">
-          <ion-button style="{{(item.color ? '--background: #'+item.color+'; --background-activated: #'+item.color : '' )}}" >{{item.name}}</ion-button>
+          <ion-button (click)="openModal(item.id)" style="{{(item.color ? '--background: #'+item.color+'; --background-activated: #'+item.color : '' )}}" >{{item.name}}</ion-button>
         </div>
       </ion-card-content>
     </ion-card>
@@ -107,7 +107,7 @@
 
       <ion-card-content>
         <div *ngFor="let item of carsregion; index as i" style="display: inline-block">
-          <ion-button style="{{(item.color ? '--background: #'+item.color+'; --background-activated: #'+item.color : '' )}}" >{{item.name}}</ion-button>
+          <ion-button (click)="openModal(item.id)" style="{{(item.color ? '--background: #'+item.color+'; --background-activated: #'+item.color : '' )}}" >{{item.name}}</ion-button>
         </div>
       </ion-card-content>
     </ion-card>
@@ -119,7 +119,7 @@
 
       <ion-card-content>
         <div *ngFor="let item of tougo; index as i" style="display: inline-block">
-          <ion-button style="{{(item.color ? '--background: #'+item.color+'; --background-activated: #'+item.color : '' )}}" >{{item.name}}</ion-button>
+          <ion-button (click)="openModal(item.id)" style="{{(item.color ? '--background: #'+item.color+'; --background-activated: #'+item.color : '' )}}" >{{item.name}}</ion-button>
         </div>
       </ion-card-content>
     </ion-card>
@@ -131,7 +131,7 @@
 
       <ion-card-content>
         <div *ngFor="let item of paysvoironnais; index as i" style="display: inline-block">
-          <ion-button style="{{(item.color ? '--background: #'+item.color+'; --background-activated: #'+item.color : '' )}}" >{{item.name}}</ion-button>
+          <ion-button (click)="openModal(item.id)" style="{{(item.color ? '--background: #'+item.color+'; --background-activated: #'+item.color : '' )}}" >{{item.name}}</ion-button>
         </div>
       </ion-card-content>
     </ion-card>
@@ -144,7 +144,7 @@
 
       <ion-card-content>
         <div *ngFor="let item of mcovoitlignes; index as i" style="display: inline-block">
-          <ion-button style="{{(item.color ? '--background: #'+item.color+'; --background-activated: #'+item.color : '' )}}" >{{item.name}}</ion-button>
+          <ion-button (click)="openModal(item.id)" style="{{(item.color ? '--background: #'+item.color+'; --background-activated: #'+item.color : '' )}}" >{{item.name}}</ion-button>
         </div>
       </ion-card-content>
     </ion-card>
@@ -158,48 +158,48 @@
 
       <ion-item>
         <ion-label>Zone urbaine</ion-label>
-<!--        <a href="../../assets/zoneurbaine.pdf"><ion-icon name="download-outline" ></ion-icon></a>-->
+<!--        <a href="https://www.tag.fr/cms_viewFile.php?idtf=3455&path=TAG-Plan-secteur-Nord-2021b.pdf"><ion-icon name="download-outline" ></ion-icon></a>-->
 <!--        <iframe src="../../assets/zoneurbaine.pdf"><ion-icon name="download-outline" ></ion-icon></iframe>-->
-        <ion-button (click)="openPdf('../../assets/zoneurbaine.pdf')" color="light"><ion-icon name="download-outline" ></ion-icon></ion-button>
+        <ion-button href="https://www.tag.fr/cms_viewFile.php?idtf=3455&path=TAG-Plan-secteur-Nord-2021b.pdf" color="light"><ion-icon name="download-outline" ></ion-icon></ion-button>
       </ion-item>
       <ion-item>
         <ion-label>Lignes essentielles</ion-label>
-        <ion-button color="light"><ion-icon name="download-outline" ></ion-icon></ion-button>
+        <ion-button href="https://www.google.com/url?sa=t&rct=j&q=&esrc=s&source=web&cd=&ved=2ahUKEwjfp8_vrYT2AhVMgv0HHQ9wAAQQFnoECBYQAQ&url=https%3A%2F%2Fwww.tag.fr%2Fcms_viewFile.php%3Fidtf%3D848%26path%3DPlan-lignes-essentielles.pdf&usg=AOvVaw0Vzp6G6jjIyuIbZHLPITLN" color="light"><ion-icon name="download-outline" ></ion-icon></ion-button>
       </ion-item>
       <ion-item>
         <ion-label>Métropole Grenobloise</ion-label>
-        <ion-button color="light"><ion-icon name="download-outline" ></ion-icon></ion-button>
+        <ion-button href="https://www.tag.fr/cms_viewFile.php?idtf=2526&path=Metropole-grenobloise.pdf" color="light"><ion-icon name="download-outline" ></ion-icon></ion-button>
       </ion-item>
       <br>
       <ion-img src="../../assets/cars-region.png" style="float: left; height: 65px; width: auto"></ion-img><br><br><br><br>
 
       <ion-item>
         <ion-label>Cars Région</ion-label>
-        <ion-button color="light"><ion-icon name="download-outline" ></ion-icon></ion-button>
+        <ion-button href="https://carsisere.auvergnerhonealpes.fr/ftp/document/affiche-reseau-2021-2022.pdf" color="light"><ion-icon name="download-outline" ></ion-icon></ion-button>
       </ion-item>
       <br>
       <ion-img src="../../assets/tougo.png" style="float: left; height: 50px; width: auto"></ion-img><br><br><br>
 
       <ion-item>
         <ion-label>Réseau Tougo</ion-label>
-        <ion-button color="light"><ion-icon name="download-outline" ></ion-icon></ion-button>
+<!--        <ion-button color="light"><ion-icon name="download-outline" ></ion-icon></ion-button>-->
       </ion-item>
       <br>
       <ion-img src="../../assets/pays-voironnais-mobilité.png" style="float: left; height: 50px; width: auto"></ion-img><br><br><br>
 
       <ion-item>
         <ion-label>Plan urbain</ion-label>
-        <ion-button color="light"><ion-icon name="download-outline" ></ion-icon></ion-button>
+        <ion-button href="https://www.paysvoironnais.com/documents/Documents/TRANSPORT/Fiches_Horaires/Plan_Voiron_urbain_2021.pdf" color="light"><ion-icon name="download-outline" ></ion-icon></ion-button>
       </ion-item>
       <ion-item>
         <ion-label>Plan interurbain</ion-label>
-        <ion-button color="light"><ion-icon name="download-outline" ></ion-icon></ion-button>
+        <ion-button href="https://www.paysvoironnais.com/documents/Documents/TRANSPORT/Interurbain_carte_2021.pdf" color="light"><ion-icon name="download-outline" ></ion-icon></ion-button>
       </ion-item>
       <ion-img src="../../assets/smmag.png" style="float: left; height: 100px; width: auto"></ion-img><br><br><br><br><br><br>
 
       <ion-item>
         <ion-label>Aire Grenobloise</ion-label>
-        <ion-button color="light"><ion-icon name="download-outline" ></ion-icon></ion-button>
+        <ion-button href="https://www.tag.fr/cms_viewFile.php?idtf=3318&path=Plan-des-lignes-essentiel-de-l-Air-Grenobloise-2021.pdf" color="light"><ion-icon name="download-outline" ></ion-icon></ion-button>
       </ion-item>
     </ion-list>
   </div>
