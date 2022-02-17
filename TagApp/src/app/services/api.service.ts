@@ -43,11 +43,34 @@ export class ApiService {
   //   // return this.http.get(this.url+'lines/json');
   //   return this.http.get('http://data.mobilites-m.fr/api/routers/default/index/stops/'+id+'/stoptimes');
   // }
+
+
+
   getInfoLignes(id: number){
     let epochNow = (new Date()).getTime();
-    console.log(epochNow);
-    return this.http.get(this.url+'ficheHoraires/json?route='+id+'&time='+epochNow);
 
+    let date = new Date();
+    // let formatDate = (date)=>{
+    //   let formatted_date = date.getDate()  + (date.getMonth() + 1) + date.getFullYear()
+    //   return formatted_date;
+    // ;
+    let formatteddate = date.getDate()+(date.getMonth() + 1)+date.getFullYear();
+
+    //console.log(formatteddate);
+   // let date = new Date();
+    let y = date.getFullYear();
+    let m = date.getMonth()+1;
+    let d = date.getDate();
+    if(m<10){
+      return this.http.get(this.url+'routers/default/index/clusters/'+id+'/stoptimes/'+y+'0'+m+''+d);
+    }else{
+      return this.http.get(this.url+'routers/default/index/clusters/'+id+'/stoptimes/'+y+''+m+''+d);
+    }
+    //return this.http.get(this.url+'ficheHoraires/json?route='+id+'&time='+epochNow);
+    //return this.http.get('http://data.mobilites-m.fr/otp/routers/2/index/stops/'+id+'/stoptimes/'+date);
   }
 
+  getPoteau(id: number) {
+    return this.http.get(this.url+'routers/default/index/routes/'+id+'/clusters');
+  }
 }

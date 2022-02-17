@@ -1,20 +1,20 @@
 import { Component, OnInit } from '@angular/core';
 import {ApiService} from '../services/api.service';
-import {Tram} from "../interfaces/tram";
-import {Navette} from "../interfaces/navette";
-import {Chrono} from "../interfaces/chrono";
-import {Proximo} from "../interfaces/proximo";
-import {Flexo} from "../interfaces/flexo";
-import {TouGo} from "../interfaces/tou-go";
-import {PaysVoironnais} from "../interfaces/pays-voironnais";
-import {CarsRegion} from "../interfaces/cars-region";
-import {CarsRegionExpress} from "../interfaces/cars-region-express";
-import {MCovoitLignes} from "../interfaces/mcovoit-lignes";
-import {DocumentViewer} from "@awesome-cordova-plugins/document-viewer/ngx";
-import {DocumentViewerOptions} from "@awesome-cordova-plugins/document-viewer";
-import {ModalController} from "@ionic/angular";
-import {InfoLigneModalPage} from "../info-ligne-modal/info-ligne-modal.page";
-import {DetailLignesPage} from "../detail-lignes/detail-lignes.page";
+import {Tram} from '../interfaces/tram';
+import {Navette} from '../interfaces/navette';
+import {Chrono} from '../interfaces/chrono';
+import {Proximo} from '../interfaces/proximo';
+import {Flexo} from '../interfaces/flexo';
+import {TouGo} from '../interfaces/tou-go';
+import {PaysVoironnais} from '../interfaces/pays-voironnais';
+import {CarsRegion} from '../interfaces/cars-region';
+import {CarsRegionExpress} from '../interfaces/cars-region-express';
+import {MCovoitLignes} from '../interfaces/mcovoit-lignes';
+import {DocumentViewer} from '@awesome-cordova-plugins/document-viewer/ngx';
+import {DocumentViewerOptions} from '@awesome-cordova-plugins/document-viewer';
+import {ModalController} from '@ionic/angular';
+import {InfoLigneModalPage} from '../info-ligne-modal/info-ligne-modal.page';
+import {DetailLignesPage} from '../detail-lignes/detail-lignes.page';
 
 @Component({
   selector: 'app-lignes',
@@ -48,14 +48,14 @@ export class LignesPage implements OnInit {
   }
 
   segmentChanged(ev: any) {
-    console.log('Segment changed', ev);
   }
 
   loadList(){
     this.api.getListLignes().subscribe(
       (data => {
+
         for(let d = 0 ; d < data['length'] ; d++){
-          console.log(data[d]['type']);
+
           this.tab.push(data[d]);
           this.tab['name'] = data[d]['shortName'];
           if(data[d]['type'] === 'TRAM'){
@@ -139,8 +139,7 @@ export class LignesPage implements OnInit {
             });
           }
         }
-        console.log(this.tab);
-        console.log(this.tram);
+
       }));
   }
 
@@ -155,7 +154,7 @@ export class LignesPage implements OnInit {
     const modal = await this.modalController.create({
       component: DetailLignesPage,
       initialBreakpoint: 0.88,
-      breakpoints: [0.25, 0.50, 0.88],
+      breakpoints: [0.40, 0.88, 1],
       componentProps: {
         "item": item,
       }
@@ -165,7 +164,7 @@ export class LignesPage implements OnInit {
       if (dataReturned !== null) {
       }
 
-      console.log('testestestestestest');
+
     });
 
     return await modal.present();

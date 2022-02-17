@@ -12,7 +12,10 @@
 
   <ng-template #elseBlock>
     <div *ngFor="let item of stopName">
-      <p style="text-align: center; margin-top: 20px; margin-left: 10px; margin-right: 10px">{{item}}</p>
+      <p style="text-align: center; margin-top: 20px; margin-left: auto; margin-right: auto; background-color: grey; padding: 7px; color: white; border-radius: 0.5em; width: 300px; ">{{item}}</p>
+    </div>
+    <div *ngFor="let arr of arrival">
+      <p style="text-align: center; margin-top: 20px; margin-left: 10px; margin-right: 10px">{{arr}}</p>
     </div>
   </ng-template>
 

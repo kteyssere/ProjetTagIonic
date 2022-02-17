@@ -30,15 +30,12 @@ export class ItinerairePage {
 
   handleClick(){
     if(this.fav){
-      console.log('publication');
+
       this.evts.publish(   'favItin',    {depart: this.depart, arrivee: this.arrivee, date: this.date, partirapres: this.partirapres, mode: this.mode}   );
       this.bd.set('favInput', this.fav).then(data => {
         console.log(data);
       });
-      // this.bd.get('favInput').then( data => {
-      //
-      //   console.log(data);
-      // });
+
     }else{
       // this.fav = true;
       this.bd.set('favInput', this.fav).then(data => {
@@ -60,20 +57,14 @@ export class ItinerairePage {
 
   loadListeLieuxArrets(val: any){
     this.api.findType('lieux,arret',val).subscribe((data)=>{
-      console.log(data);
       for(let d of data['features']){
         this.lieuxarret.push(d['properties']['LIBELLE']);
-        console.log(this.lieuxarret);
       }
-
       //console.log(data['features']['properties']['LIBELLE']);
-      console.log(this.lieuxarret);
     });
   }
 
   updateSearchBar($event: any) {
     this.loadListeLieuxArrets($event.detail.value);
-    console.log($event.detail.value);
-    console.log($event);
   }
 }

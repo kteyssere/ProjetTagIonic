@@ -12,17 +12,11 @@ export class InfoLigneModalPage implements OnInit {
   lines: any;
 
   constructor(private modalController: ModalController, private navParams: NavParams) {
-    console.table(this.navParams);
     this.name = this.navParams.data.name;
     this.lines = this.navParams.data.lines;
   }
 
   ngOnInit() {
   }
-
-  // async closeModal() {
-  //   const onClosedData = 'Wrapped Up!';
-  //   await this.modalController.dismiss(onClosedData);
-  // }
 
 }

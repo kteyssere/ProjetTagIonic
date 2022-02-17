@@ -4,7 +4,7 @@ import { antPath } from 'leaflet-ant-path';
 import { Geolocation } from '@awesome-cordova-plugins/geolocation/ngx';
 import {ApiService} from '../services/api.service';
 import {ModalController} from '@ionic/angular';
-import {InfoLigneModalPage} from "../info-ligne-modal/info-ligne-modal.page";
+import {InfoLigneModalPage} from '../info-ligne-modal/info-ligne-modal.page';
 
 @Component({
   selector: 'app-carte',
@@ -38,8 +38,6 @@ export class CartePage implements OnInit, OnDestroy{
   }
 
   ngOnInit() {
-    //Cherge le chemin tracé des lignes
-    this.loadTroncons();
 
     //Prend la position gps actuelle
     this.geolocation.getCurrentPosition({
@@ -50,8 +48,7 @@ export class CartePage implements OnInit, OnDestroy{
       this.lng = resp.coords.longitude;
       this.latPin = resp.coords.latitude;
       this.lngPin = resp.coords.longitude;
-      console.log(this.lat);
-      console.log(this.lng);
+
       // let la = resp.coords.latitude;
       // console.log(la);
       // let long = resp.coords.longitude;
@@ -59,6 +56,8 @@ export class CartePage implements OnInit, OnDestroy{
     }).catch((error) => {
       console.log('Error getting location', error);
     });
+
+
 
   }
   ionViewDidEnter() {
@@ -77,7 +76,13 @@ export class CartePage implements OnInit, OnDestroy{
       Leaflet.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
         attribution: 'edupala.com © Angular LeafLet',
       }).addTo(this.map);
+      //Leaflet.Control.geocoder().addTo(this.map);
    }
+
+    //Cherge le chemin tracé des lignes
+    if(Leaflet !== undefined){
+      this.loadTroncons();
+    }
 
     //Image de la pin
     let pin = Leaflet.icon({
@@ -89,10 +94,9 @@ export class CartePage implements OnInit, OnDestroy{
 
     //Event sur le zoom
     this.map.on('zoomend',function(e){
-      console.log(e);
-      console.log(_this.map._zoom);
+
       if (_this.map.getZoom() < 15){
-        console.log('zoom OK');
+
         //console.log(_this.tramMarker);
         _this.map.removeLayer(_this.tramMarker);
       }
@@ -197,7 +201,7 @@ export class CartePage implements OnInit, OnDestroy{
               }
               this.markerTramTab.pop();
 
-              console.log('test');
+
               //this.tramMarker = null;
             }
 
@@ -273,7 +277,7 @@ export class CartePage implements OnInit, OnDestroy{
           //Ajoute des marker de tram et un onClick envent
           if(Leaflet !== undefined) {
             this.tramMarker = Leaflet.marker([d[f]['lat'], d[f]['lon']], {icon: bus}).addTo(this.map).on('click', function (e) {
-              console.log(e);
+
               //e.originalEvent = PointerEvent;
               // e.originalEvent.originalEvent.isTrusted;
 
@@ -292,7 +296,7 @@ export class CartePage implements OnInit, OnDestroy{
   loadTroncons(){
     this.api.getTronconsLignes().subscribe(
       (data) => {
-        console.log(data);
+
         // var c = [];
         for(let f of data['features']){
 
@@ -302,14 +306,18 @@ export class CartePage implements OnInit, OnDestroy{
           for (let k = 0; k < latlngsArr.length; k++) {
             latlngsArr[k] = latlngsArr[k].reverse();
           }
-        console.log(latlngsArr);
+        //console.log(latlngsArr);
 
-          if( Leaflet !== undefined){
-            let polyline = Leaflet.polyline(latlngsArr, {color: 'blue'}).addTo(this.map);
-            this.map.fitBounds(polyline.getBounds());
-          }
+          //if( Leaflet !== undefined){
+            let polyline = Leaflet.polyline(latlngsArr, {color: 'green'}, {weight: 2}).addTo(this.map);
+
+
+          //console.log('test');
+          // this.map.fitBounds(polyline.getBounds());
+            //console.log('polyline');
+         // }
         }
-        Leaflet.polyline(this.connectDots(data)).addTo(this.map);
+        // Leaflet.polyline(this.connectDots(data)).addTo(this.map);
 
 
         //
@@ -338,8 +346,8 @@ export class CartePage implements OnInit, OnDestroy{
   async openModal(name: any, lines: any) {
     const modal = await this.modalController.create({
       component: InfoLigneModalPage,
-      initialBreakpoint: 0.192,
-      breakpoints: [0.192, 0.30, 0.50],
+      initialBreakpoint: 0.4,
+      breakpoints: [0.192, 0.4, 0.8],
       componentProps: {
         "name": name,
         "lines": lines
@@ -350,7 +358,7 @@ export class CartePage implements OnInit, OnDestroy{
       if (dataReturned !== null) {
       }
 
-      console.log('testestestestestest');
+
     });
 
     return await modal.present();
