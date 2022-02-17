@@ -24,23 +24,29 @@ export class ItinerairePage {
 
   constructor(private bd: Storage, private evts: EventsService, private api: ApiService, private route: Router) {
     this.frominput = '';
-    this.fav = true;
+    this.fav = false;
     this.bd.create();
   }
 
   handleClick(){
-    if(this.fav){
+    if(!this.fav){
 
       this.evts.publish(   'favItin',    {depart: this.depart, arrivee: this.arrivee, date: this.date, partirapres: this.partirapres, mode: this.mode}   );
-      this.bd.set('favInput', this.fav).then(data => {
-        console.log(data);
-      });
+      // this.bd.set('favInput', this.fav).then(data => {
+      //   console.log(data);
+      // });
+      this.depart = '';
+      this.arrivee = '';
+      this.date = '';
+      this.partirapres = '';
+      this.mode = '';
+      this.fav = true;
 
     }else{
       // this.fav = true;
-      this.bd.set('favInput', this.fav).then(data => {
-        console.log(data);
-      });
+      // this.bd.set('favInput', this.fav).then(data => {
+      //   console.log(data);
+      // });
       // this.bd.get('favInput').then( data => {
       //   console.log(data);
       // });

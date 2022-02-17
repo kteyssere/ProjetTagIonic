@@ -21,8 +21,8 @@ export class DetailLignesPage implements OnInit {
   }
 
   ngOnInit() {
-    this.loadDetails(this.item);
-    this.loadPoteau(this.item);
+    //this.loadDetails(this.item);
+    this.loadPoteau(this.item['id']);
   }
 
   loadPoteau(id: number){
@@ -31,9 +31,9 @@ export class DetailLignesPage implements OnInit {
 
       //for(let item of data[0]){
       for(let i=0 ; i<data['length'] ; i++){
-        this.stopName.push(data[i]['name']);
+        this.stopName.push(data[i]);
         this.codeStop.push(data[i]['code']);
-        this.loadDetails(data[i]['code']);
+        //this.loadDetails(data[i]['code']);
       }
 
     });
@@ -49,20 +49,21 @@ export class DetailLignesPage implements OnInit {
   loadDetails(id: number){
 
     this.api.getInfoLignes(id).subscribe((data) => {
-      // console.log(data);
+      console.log(data);
       //
       // //this.midnightTimestampToMinutes();
       //
-      // //for(let item of data['times']){
-      // for(let i=0 ; i<data['length'] ; i++){
-      //   // this.next = data[0]['nextTime'];
-      //   // this.prev =
-      //   // this.stopName.push(item['stopName']);
-      //   console.log(data[i]['times'][i]['realtimeArrival']);
-      //   let res = this.midnightTimestampToMinutes(data[i]['times'][i]['realtimeArrival']);
-      //   this.arrival.push(res);
-      //   //console.log(data[i]['times']);
-      // }
+      //for(let item of data['times']){
+      for(let i=0 ; i<data['length'] ; i++){
+        // this.next = data[0]['nextTime'];
+        // this.prev =
+        // this.stopName.push(item['stopName']);
+        //console.log(data[i]['times'][i]['realtimeArrival']);
+        console.log(this.midnightTimestampToMinutes(data[i]['times'][0]['realtimeArrival']));
+        let res = this.midnightTimestampToMinutes(data[i]['times'][0]['realtimeArrival']);
+        this.arrival.push(res);
+        //console.log(data[i]['times']);
+      }
 
 
     });

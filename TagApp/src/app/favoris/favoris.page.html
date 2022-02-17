@@ -12,11 +12,13 @@
 <ion-content [fullscreen]="true">
 
   <div *ngIf="tab.length === 0; else elseBlock">
-    <p style="margin-top: 250px; margin-right: 30px; margin-left: 30px; text-align: center">Vous n'avez pas de favoris actuellement. Ajoutez-en en tapant sur le coeur.</p>
+    <p style="margin-top: 250px; margin-right: 30px; margin-left: 30px; text-align: center">Vous n'avez pas de favoris actuellement. Ajoutez-en en appuyant sur le coeur.</p>
   </div>
   <ng-template #elseBlock>
-    <div *ngFor="let item of tab">
-      <p>De {{item.depart}} à {{item.arrivee}}</p>
+    <div *ngFor="let item of tab" style="background-color: #eb455a; color: white; border: solid 1px black; padding: 10px;">
+      <p style="font-weight: bold">{{item.depart}} → {{item.arrivee}}</p>
+      <p>{{item.partirapres}} le {{item.date.slice(8, 10)}}-{{item.date.slice(5, 7)}}-{{item.date.slice(0, 4)}} à {{item.date.slice(11, 16)}}</p>
+      <p>{{item.mode}}</p>
     </div>
   </ng-template>
 

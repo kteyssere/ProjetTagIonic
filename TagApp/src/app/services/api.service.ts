@@ -62,9 +62,9 @@ export class ApiService {
     let m = date.getMonth()+1;
     let d = date.getDate();
     if(m<10){
-      return this.http.get(this.url+'routers/default/index/clusters/'+id+'/stoptimes/'+y+'0'+m+''+d);
+      return this.http.get(this.url+'routers/default/index/clusters/'+id+'/stoptimes');
     }else{
-      return this.http.get(this.url+'routers/default/index/clusters/'+id+'/stoptimes/'+y+''+m+''+d);
+      return this.http.get(this.url+'routers/default/index/clusters/'+id+'/stoptimes');
     }
     //return this.http.get(this.url+'ficheHoraires/json?route='+id+'&time='+epochNow);
     //return this.http.get('http://data.mobilites-m.fr/otp/routers/2/index/stops/'+id+'/stoptimes/'+date);

@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
-import {EventsService} from "../services/events.service";
-import {ActivatedRoute} from "@angular/router";
-import {Storage} from "@ionic/storage";
+import {EventsService} from '../services/events.service';
+import {ActivatedRoute} from '@angular/router';
+import {Storage} from '@ionic/storage';
 
 @Component({
   selector: 'app-favoris',
