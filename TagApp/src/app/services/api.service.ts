@@ -39,6 +39,50 @@ export class ApiService {
     return this.http.get(this.url+'troncons/json');
   }
 
+  getTronconsLignesC1(){
+    return this.http.get(this.url+'lines/json?types=ligne&codes=SEM_C1');
+  }
+  getTronconsLignesC2(){
+    return this.http.get(this.url+'lines/json?types=ligne&codes=SEM_C2');
+  }
+  getTronconsLignesA(){
+    return this.http.get(this.url+'lines/json?types=ligne&codes=SEM_A');
+  }
+  getTronconsLignesB(){
+    return this.http.get(this.url+'lines/json?types=ligne&codes=SEM_B');
+  }
+  getTronconsLignesC(){
+    return this.http.get(this.url+'lines/json?types=ligne&codes=SEM_C');
+  }
+  getTronconsLignesD(){
+    return this.http.get(this.url+'lines/json?types=ligne&codes=SEM_D');
+  }
+  getTronconsLignesE(){
+    return this.http.get(this.url+'lines/json?types=ligne&codes=SEM_E');
+  }
+  getTronconsLignes81(){
+    return this.http.get(this.url+'lines/json?types=ligne&codes=SEM_81');
+  }
+  getTronconsLignes82(){
+    return this.http.get(this.url+'lines/json?types=ligne&codes=SEM_82');
+  }
+
+  getTronconsLignesC3(){
+    return this.http.get(this.url+'lines/json?types=ligne&codes=SEM_C3');
+  }
+  getTronconsLignesC4(){
+    return this.http.get(this.url+'lines/json?types=ligne&codes=SEM_C4');
+  }
+  getTronconsLignesC5(){
+    return this.http.get(this.url+'lines/json?types=ligne&codes=SEM_C5');
+  }
+  getTronconsLignesC6(){
+    return this.http.get(this.url+'lines/json?types=ligne&codes=SEM_C6');
+  }
+  getTronconsLignesC7(){
+    return this.http.get(this.url+'lines/json?types=ligne&codes=SEM_C7');
+  }
+
   // getInfoLignes(id: number){
   //   // return this.http.get(this.url+'lines/json');
   //   return this.http.get('http://data.mobilites-m.fr/api/routers/default/index/stops/'+id+'/stoptimes');

@@ -81,7 +81,24 @@ export class CartePage implements OnInit, OnDestroy{
 
     //Cherge le chemin tracé des lignes
     if(Leaflet !== undefined){
-      this.loadTroncons();
+      // this.loadTroncons();
+    }
+
+    if(Leaflet !== undefined){
+      this.loadTronconsC1();
+      this.loadTronconsC2();
+      this.loadTronconsA();
+      this.loadTronconsB();
+      this.loadTronconsC();
+      this.loadTronconsD();
+      this.loadTronconsE();
+      this.loadTroncons81();
+      this.loadTroncons82();
+      this.loadTronconsC3();
+      this.loadTronconsC4();
+      this.loadTronconsC5();
+      this.loadTronconsC6();
+      this.loadTronconsC7();
     }
 
     //Image de la pin
@@ -293,41 +310,251 @@ export class CartePage implements OnInit, OnDestroy{
 }
 
   //Charge les tracés des lignes
-  loadTroncons(){
-    this.api.getTronconsLignes().subscribe(
+  // loadTroncons(){
+  //   this.api.getTronconsLignes().subscribe(
+  //     (data) => {
+  //
+  //       for(let f of data['features']){
+  //         let latlngsArr = f['geometry']['coordinates'];
+  //         for (let k = 0; k < latlngsArr.length; k++) {
+  //           latlngsArr[k] = latlngsArr[k].reverse();
+  //         }
+  //         let polyline = Leaflet.polyline(latlngsArr, {color: 'green'}, {weight: 2}).addTo(this.map);
+  //       }
+  //     });
+  // }
+
+  loadTronconsC1(){
+    this.api.getTronconsLignesC1().subscribe(
       (data) => {
 
-        // var c = [];
         for(let f of data['features']){
-
           let latlngsArr = f['geometry']['coordinates'];
-          // console.log(f['geometry']);
-          // console.log(latlngsArr);
           for (let k = 0; k < latlngsArr.length; k++) {
-            latlngsArr[k] = latlngsArr[k].reverse();
+            for(let point of latlngsArr[k]) {
+              point = point.reverse();
+            }
+
           }
-        //console.log(latlngsArr);
-
-          //if( Leaflet !== undefined){
-            let polyline = Leaflet.polyline(latlngsArr, {color: 'green'}, {weight: 2}).addTo(this.map);
-
-
-          //console.log('test');
-          // this.map.fitBounds(polyline.getBounds());
-            //console.log('polyline');
-         // }
+          let polyline = Leaflet.polyline(latlngsArr, {color: '#FDEA00'}, {weight: 2}).addTo(this.map);
         }
-        // Leaflet.polyline(this.connectDots(data)).addTo(this.map);
+      });
+  }
 
+  loadTronconsC2(){
+    this.api.getTronconsLignesC2().subscribe(
+      (data) => {
 
-        //
-        //
-        // for(let t=0 ; t < data['length'] ; t++){
-        //   var x = data._layers[i]._latlng.lat;
-        //   var y = data._layers[i]._latlng.lng;
-        //   c.push([x, y]);
-        //   Leaflet.marker([d[f]['lat'], d[f]['lon']], {icon: bus}).addTo(this.map);
-        // }
+        for(let f of data['features']){
+          let latlngsArr = f['geometry']['coordinates'];
+          for (let k = 0; k < latlngsArr.length; k++) {
+            for(let point of latlngsArr[k]) {
+              point = point.reverse();
+            }
+
+          }
+          let polyline = Leaflet.polyline(latlngsArr, {color: '#FDEA00'}, {weight: 2}).addTo(this.map);
+        }
+      });
+  }
+
+  loadTronconsA(){
+    this.api.getTronconsLignesA().subscribe(
+      (data) => {
+
+        for(let f of data['features']){
+          let latlngsArr = f['geometry']['coordinates'];
+          for (let k = 0; k < latlngsArr.length; k++) {
+            for(let point of latlngsArr[k]) {
+              point = point.reverse();
+            }
+
+          }
+          let polyline = Leaflet.polyline(latlngsArr, {color: '#3376B8'}, {weight: 2}).addTo(this.map);
+        }
+      });
+  }
+  loadTronconsB(){
+    this.api.getTronconsLignesB().subscribe(
+      (data) => {
+
+        for(let f of data['features']){
+          let latlngsArr = f['geometry']['coordinates'];
+          for (let k = 0; k < latlngsArr.length; k++) {
+            for(let point of latlngsArr[k]) {
+              point = point.reverse();
+            }
+
+          }
+          let polyline = Leaflet.polyline(latlngsArr, {color: '#479A45'}, {weight: 2}).addTo(this.map);
+        }
+      });
+  }
+
+  loadTronconsE(){
+    this.api.getTronconsLignesE().subscribe(
+      (data) => {
+
+        for(let f of data['features']){
+          let latlngsArr = f['geometry']['coordinates'];
+          for (let k = 0; k < latlngsArr.length; k++) {
+            for(let point of latlngsArr[k]) {
+              point = point.reverse();
+            }
+
+          }
+          let polyline = Leaflet.polyline(latlngsArr, {color: 'purple'}, {weight: 2}).addTo(this.map);
+        }
+      });
+  }
+
+  loadTroncons81(){
+    this.api.getTronconsLignes81().subscribe(
+      (data) => {
+
+        for(let f of data['features']){
+          let latlngsArr = f['geometry']['coordinates'];
+          for (let k = 0; k < latlngsArr.length; k++) {
+            for(let point of latlngsArr[k]) {
+              point = point.reverse();
+            }
+
+          }
+          let polyline = Leaflet.polyline(latlngsArr, {color: '#3376B8'}, {weight: 2}).addTo(this.map);
+        }
+      });
+  }
+
+  loadTroncons82(){
+    this.api.getTronconsLignes82().subscribe(
+      (data) => {
+
+        for(let f of data['features']){
+          let latlngsArr = f['geometry']['coordinates'];
+          for (let k = 0; k < latlngsArr.length; k++) {
+            for(let point of latlngsArr[k]) {
+              point = point.reverse();
+            }
+
+          }
+          let polyline = Leaflet.polyline(latlngsArr, {color: '#479A45'}, {weight: 2}).addTo(this.map);
+        }
+      });
+  }
+
+  loadTronconsC3(){
+    this.api.getTronconsLignesC3().subscribe(
+      (data) => {
+
+        for(let f of data['features']){
+          let latlngsArr = f['geometry']['coordinates'];
+          for (let k = 0; k < latlngsArr.length; k++) {
+            for(let point of latlngsArr[k]) {
+              point = point.reverse();
+            }
+
+          }
+          let polyline = Leaflet.polyline(latlngsArr, {color: '#FDEA00'}, {weight: 2}).addTo(this.map);
+        }
+      });
+  }
+  loadTronconsC4(){
+    this.api.getTronconsLignesC4().subscribe(
+      (data) => {
+
+        for(let f of data['features']){
+          let latlngsArr = f['geometry']['coordinates'];
+          for (let k = 0; k < latlngsArr.length; k++) {
+            for(let point of latlngsArr[k]) {
+              point = point.reverse();
+            }
+
+          }
+          let polyline = Leaflet.polyline(latlngsArr, {color: '#FDEA00'}, {weight: 2}).addTo(this.map);
+        }
+      });
+  }
+  loadTronconsC5(){
+    this.api.getTronconsLignesC5().subscribe(
+      (data) => {
+
+        for(let f of data['features']){
+          let latlngsArr = f['geometry']['coordinates'];
+          for (let k = 0; k < latlngsArr.length; k++) {
+            for(let point of latlngsArr[k]) {
+              point = point.reverse();
+            }
+
+          }
+          let polyline = Leaflet.polyline(latlngsArr, {color: '#FDEA00'}, {weight: 2}).addTo(this.map);
+        }
+      });
+  }
+
+  loadTronconsC6(){
+    this.api.getTronconsLignesC6().subscribe(
+      (data) => {
+
+        for(let f of data['features']){
+          let latlngsArr = f['geometry']['coordinates'];
+          for (let k = 0; k < latlngsArr.length; k++) {
+            for(let point of latlngsArr[k]) {
+              point = point.reverse();
+            }
+
+          }
+          let polyline = Leaflet.polyline(latlngsArr, {color: '#FDEA00'}, {weight: 2}).addTo(this.map);
+        }
+      });
+  }
+
+  loadTronconsC7(){
+    this.api.getTronconsLignesC7().subscribe(
+      (data) => {
+
+        for(let f of data['features']){
+          let latlngsArr = f['geometry']['coordinates'];
+          for (let k = 0; k < latlngsArr.length; k++) {
+            for(let point of latlngsArr[k]) {
+              point = point.reverse();
+            }
+
+          }
+          let polyline = Leaflet.polyline(latlngsArr, {color: '#FDEA00'}, {weight: 2}).addTo(this.map);
+        }
+      });
+  }
+
+  loadTronconsC(){
+    this.api.getTronconsLignesC().subscribe(
+      (data) => {
+
+        for(let f of data['features']){
+          let latlngsArr = f['geometry']['coordinates'];
+          for (let k = 0; k < latlngsArr.length; k++) {
+            for(let point of latlngsArr[k]) {
+              point = point.reverse();
+            }
+
+          }
+          let polyline = Leaflet.polyline(latlngsArr, {color: '#C20078'}, {weight: 2}).addTo(this.map);
+        }
+      });
+  }
+  loadTronconsD(){
+    this.api.getTronconsLignesD().subscribe(
+      (data) => {
+
+        for(let f of data['features']){
+          let latlngsArr = f['geometry']['coordinates'];
+          for (let k = 0; k < latlngsArr.length; k++) {
+            for(let point of latlngsArr[k]) {
+              point = point.reverse();
+            }
+
+          }
+          let polyline = Leaflet.polyline(latlngsArr, {color: '#DE9917'}, {weight: 2}).addTo(this.map);
+        }
       });
   }
 
