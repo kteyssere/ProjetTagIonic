@@ -18,6 +18,10 @@ const routes: Routes = [
     path: 'detail-lignes',
     loadChildren: () => import('./detail-lignes/detail-lignes.module').then( m => m.DetailLignesPageModule)
   },
+  {
+    path: 'info-itineraire-modal',
+    loadChildren: () => import('./info-itineraire-modal/info-itineraire-modal.module').then( m => m.InfoItineraireModalPageModule)
+  },
 ];
 @NgModule({
   imports: [

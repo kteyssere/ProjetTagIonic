@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import {ApiService} from '../services/api.service';
 import {ModalController, NavParams} from '@ionic/angular';
+import {InfoLigneModalPage} from "../info-ligne-modal/info-ligne-modal.page";
+import {InfoItineraireModalPage} from "../info-itineraire-modal/info-itineraire-modal.page";
 
 @Component({
   selector: 'app-detail-lignes',
@@ -49,23 +51,53 @@ export class DetailLignesPage implements OnInit {
   loadDetails(id: number){
 
     this.api.getInfoLignes(id).subscribe((data) => {
-      console.log(data);
+      // console.log(data);
       //
       // //this.midnightTimestampToMinutes();
       //
       //for(let item of data['times']){
+      if(this.arrival.length !== 0){
+        this.arrival.pop();
+      }
       for(let i=0 ; i<data['length'] ; i++){
         // this.next = data[0]['nextTime'];
         // this.prev =
         // this.stopName.push(item['stopName']);
         //console.log(data[i]['times'][i]['realtimeArrival']);
-        console.log(this.midnightTimestampToMinutes(data[i]['times'][0]['realtimeArrival']));
+        // _this.openModal(d[f]['name'], d[f]['lines']);
+        // console.log(this.midnightTimestampToMinutes(data[i]['times'][0]['realtimeArrival']));
         let res = this.midnightTimestampToMinutes(data[i]['times'][0]['realtimeArrival']);
         this.arrival.push(res);
+
         //console.log(data[i]['times']);
+
       }
+      this.openModal(this.arrival);
 
 
     });
   }
+
+  //Ouvre le modal info itineraire
+  async openModal(arrival: any) {
+    const modal = await this.modalController.create({
+      component: InfoItineraireModalPage,
+      initialBreakpoint: 0.4,
+      breakpoints: [0.192, 0.4, 0.8],
+      componentProps: {
+        "arrival": arrival,
+      }
+    });
+
+    modal.onDidDismiss().then((dataReturned) => {
+      if (dataReturned !== null) {
+      }
+
+
+    });
+
+    return await modal.present();
+  }
+
+
 }

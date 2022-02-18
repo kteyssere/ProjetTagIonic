@@ -27,7 +27,7 @@
 <!--      color: white; border-radius: 0.5em; width: 300px; ">-->
 <!--        {{item.name}}-->
 <!--      </p>-->
-      <ion-button style="width: 300px" id="trigger-button" (click)="loadDetails(item.code)">{{item.name}}</ion-button>
+      <ion-button (click)="loadDetails(item.code)" style="width: 300px">{{item.name}}</ion-button>
       <br>↓
     </div>
     <p style="text-align: center">Arrivée</p>
@@ -37,19 +37,19 @@
 
 
 <!--    <ion-button id="trigger-button">Click to open modal</ion-button>-->
-    <ion-modal trigger="trigger-button"
-               [breakpoints]="[0.1, 0.5, 1]"
-               [initialBreakpoint]="0.5"
-    >
-      <ng-template>
-        <ion-content>
-          <p style="text-align: center; margin-top: 30px">Prochain départ dans :</p>
-          <div style="text-align: center; margin-top: 5px;" *ngFor="let arr of arrival">
-            {{arr}} minute(s)
-          </div>
-        </ion-content>
-      </ng-template>
-    </ion-modal>
+<!--    <ion-modal trigger="trigger-button"-->
+<!--               [breakpoints]="[0.1, 0.5, 1]"-->
+<!--               [initialBreakpoint]="0.5"-->
+<!--    >-->
+<!--      <ng-template>-->
+<!--        <ion-content>-->
+<!--          <p style="text-align: center; margin-top: 30px">Prochain départ dans :</p>-->
+<!--          <div style="text-align: center; margin-top: 5px;" *ngFor="let arr of arrival">-->
+<!--            {{arr}} minute(s)-->
+<!--          </div>-->
+<!--        </ion-content>-->
+<!--      </ng-template>-->
+<!--    </ion-modal>-->
 
 
 

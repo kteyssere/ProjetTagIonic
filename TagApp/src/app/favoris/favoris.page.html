@@ -17,7 +17,7 @@
   <ng-template #elseBlock>
     <div *ngFor="let item of tab" style="background-color: #eb455a; color: white; border: solid 1px black; padding: 10px;">
       <p style="font-weight: bold">{{item.depart}} → {{item.arrivee}}</p>
-      <p>{{item.partirapres}} le {{item.date.slice(8, 10)}}-{{item.date.slice(5, 7)}}-{{item.date.slice(0, 4)}} à {{item.date.slice(11, 16)}}</p>
+      <p>{{item.partirapres}} {{item.date.slice(11, 13)}}h{{item.date.slice(14, 16)}} le {{item.date.slice(8, 10)}}-{{item.date.slice(5, 7)}}-{{item.date.slice(0, 4)}}</p>
       <p>{{item.mode}}</p>
     </div>
   </ng-template>
